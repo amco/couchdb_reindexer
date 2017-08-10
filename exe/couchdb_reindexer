@@ -1,0 +1,59 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'optparse'
+require 'couchdb_reindexer'
+
+options = {}
+
+OptionParser.new do |opts|
+  opts.banner = 'Usage: couchdb_reindexer [options]'
+
+  opts.on('-u', '--username [USERNAME]', \
+          "Username for basic auth. (e.g. 'admin')") do |u|
+    options[:username] = u
+  end
+
+  opts.on('-p', '--password [PASSWORD]', \
+          "Password for basic auth. (e.g. 'secret')") do |p|
+    options[:password] = p
+  end
+
+  opts.on('-H', '--host [HOST]', \
+          "CouchDB Host. (e.g. '192.168.0.1')") do |h|
+    options[:host] = h
+  end
+
+  opts.on('-P', '--port [PORT]', \
+          'CouchDB Port. (default: 5984)') do |p|
+    options[:port] = p
+  end
+
+  opts.on('--protocol [PROTOCOL]', \
+          'Protocol for HTTP requests. (default: http)') do |p|
+    options[:protocol] = p
+  end
+
+  opts.on('-h', '--help', 'Show this message.') do
+    puts opts
+    exit
+  end
+
+  opts.on('-R', '--retries [RETRIES]', \
+          'Number of times to retry a request ' \
+          'before timing out. (default: 10)') do |r|
+    options[:retries] = r
+  end
+
+  opts.on('-d', '--database DATABASE', \
+          "CouchDB database. (e.g. 'default')") do |d|
+    options[:database] = d
+  end
+
+  if ARGV.empty?
+    puts opts
+    exit
+  end
+end.parse!
+
+CouchdbReindexer::Indexer.new(options).run
