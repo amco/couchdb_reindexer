@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = 'CouchDB indexer'
   spec.description   = 'Simple CouchDB views reindexer'
-  spec.homepage      = 'https://github.com/itsjesusurias/couch_reindexer'
+  spec.homepage      = 'https://github.com/itsjesusurias/couchdb_reindexer'
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
